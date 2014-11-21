@@ -1,14 +1,14 @@
-package fi.kivibot.pallo2d.Rendering;
+package fi.kivibot.pallo2d.rendering;
 
 /**
  *
  * @author Nicklas Ahlskog
  */
-public abstract class GLObject {
+public abstract class OGLObject {
 
     private final int id;
 
-    public GLObject(int id) {
+    public OGLObject(int id) {
         this.id = id;
     }
 

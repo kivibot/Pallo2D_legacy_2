@@ -26,6 +26,12 @@ auxiliary.show.customizer.message=<message>
                     <location>src/java</location>
                     <encoding>UTF-8</encoding>
                 </source-folder>
+                <source-folder>
+                    <label>src\resources</label>
+                    <type>java</type>
+                    <location>src/resources</location>
+                    <encoding>UTF-8</encoding>
+                </source-folder>
             </folders>
             <ide-actions>
                 <action name="build">
@@ -35,11 +41,24 @@ auxiliary.show.customizer.message=<message>
                     <target>clean</target>
                 </action>
                 <action name="run">
-                    <target>run</target>
+                    <target>main</target>
                 </action>
                 <action name="rebuild">
                     <target>clean</target>
                     <target>build</target>
+                </action>
+                <action name="compile.single">
+                    <script>nbproject/ide-file-targets.xml</script>
+                    <target>compile-selected-files-in-java</target>
+                    <context>
+                        <property>files</property>
+                        <folder>src/java</folder>
+                        <pattern>\.java$</pattern>
+                        <format>relative-path</format>
+                        <arity>
+                            <separated-files>,</separated-files>
+                        </arity>
+                    </context>
                 </action>
             </ide-actions>
             <view>
@@ -47,6 +66,10 @@ auxiliary.show.customizer.message=<message>
                     <source-folder style="packages">
                         <label>src\java</label>
                         <location>src/java</location>
+                    </source-folder>
+                    <source-folder style="packages">
+                        <label>src\resources</label>
+                        <location>src/resources</location>
                     </source-folder>
                     <source-file>
                         <location>build.xml</location>
@@ -64,7 +87,11 @@ auxiliary.show.customizer.message=<message>
         <java-data xmlns="http://www.netbeans.org/ns/freeform-project-java/4">
             <compilation-unit>
                 <package-root>src/java</package-root>
-                <classpath mode="compile">lib/lwjgl/jar/lwjgl.jar</classpath>
+                <classpath mode="compile">lib/lwjgl/jar/lwjgl.jar;lib/snakeyaml/snakeyaml-1.14.jar</classpath>
+                <source-level>1.8</source-level>
+            </compilation-unit>
+            <compilation-unit>
+                <package-root>src/resources</package-root>
                 <source-level>1.8</source-level>
             </compilation-unit>
         </java-data>

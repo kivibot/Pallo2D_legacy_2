@@ -1,5 +1,7 @@
 package fi.kivibot.pallo2d;
 
+import fi.kivibot.pallo2d.assets.SimpleAssetManager;
+import fi.kivibot.pallo2d.rendering.Renderer;
 import java.nio.ByteBuffer;
 import org.lwjgl.Sys;
 import static org.lwjgl.opengl.GL11.*;
@@ -15,10 +17,21 @@ import org.lwjgl.system.glfw.WindowCallbackAdapter;
  *
  * @author Nicklas Ahlskog
  */
-public class Application {
+public abstract class Application {
 
     private final String name;
     private long windowId;
+    private GLContext glContext;
+    private SimpleAssetManager assetManager;
+    private Renderer renderer;
+
+    protected SimpleAssetManager getAssetManager() {
+        return assetManager;
+    }
+
+    public Renderer getRenderer() {
+        return renderer;
+    }
 
     public Application(String name) {
         this.name = name;
@@ -33,6 +46,7 @@ public class Application {
     private void run() {
         init();
         loop();
+        clean();
     }
 
     private void init() {
@@ -47,8 +61,8 @@ public class Application {
         glfwWindowHint(GLFW_VISIBLE, GL_FALSE);
         glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
-        int WIDTH = 300;
-        int HEIGHT = 300;
+        int WIDTH = 1280;
+        int HEIGHT = 720;
 
         windowId = glfwCreateWindow(WIDTH, HEIGHT, name, NULL, NULL);
         if (windowId == NULL) {
@@ -75,17 +89,32 @@ public class Application {
         glfwSwapInterval(1);
 
         glfwShowWindow(windowId);
+        glContext = GLContext.createFromCurrent();
+
+        assetManager = new SimpleAssetManager(glContext);
+        renderer = new Renderer(glContext);
+        onInit();
     }
 
     private void loop() {
-        GLContext.createFromCurrent();
         glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
         while (glfwWindowShouldClose(windowId) == GL_FALSE) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            
+            onLoop();
 
             glfwSwapBuffers(windowId);
             glfwPollEvents();
         }
     }
+
+    private void clean() {
+        glContext.destroy();
+        glfwDestroyWindow(windowId);
+    }
+
+    protected abstract void onInit();
+
+    protected abstract void onLoop();
 
 }

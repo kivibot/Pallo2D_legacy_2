@@ -8,6 +8,7 @@
     
     <path id="classpath">
         <fileset dir="${lib.dir}" includes="lwjgl/jar/lwjgl.jar"/>
+        <fileset dir="${lib.dir}" includes="snakeyaml/snakeyaml-1.14.jar"/>
     </path>
 
     <target name="clean">
