@@ -1,5 +1,7 @@
 package fi.kivibot.pallo2d.rendering;
 
+import java.nio.FloatBuffer;
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import static org.lwjgl.opengl.GL30.*;
@@ -16,6 +18,8 @@ public class Renderer {
 
     private final GLContext glContext;
 
+    private FloatBuffer fb0 = BufferUtils.createFloatBuffer(9);
+
     public Renderer(GLContext glContext) {
         this.glContext = glContext;
     }
@@ -24,6 +28,12 @@ public class Renderer {
         glBindVertexArray(g.getMesh().getId());
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g.getMesh().getIndices().getId());
         glUseProgram(g.getShader().getId());
+
+        Transformable t = new Transformable();
+        t.translate(0, (float) Math.sin(System.currentTimeMillis()/1000.0));
+        t.getMatrix().toBuffer(fb0);
+        glUniformMatrix3(glGetUniformLocation(g.getShader().getId(), "cam"), true, fb0);
+
         for (int i = 0; i < g.getTextures().size(); i++) {
             glActiveTexture(0);
             glBindTexture(GL11.GL_TEXTURE_2D, g.getTextures().get(i).getId());
@@ -32,7 +42,7 @@ public class Renderer {
             glEnableVertexAttribArray(i);
         }
 
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, g.getMesh().getIndices().getSize(), GL_UNSIGNED_INT, 0);
 
         for (int i = 0; i < g.getMesh().getBuffers().size(); i++) {
             glDisableVertexAttribArray(i);

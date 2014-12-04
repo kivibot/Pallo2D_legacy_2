@@ -139,9 +139,9 @@ public class SimpleAssetManager {
             indices[i] = (int) indexList.get(i);
         }
 
-        OGLBuffer pb = new OGLBuffer(glGenBuffers(), GL_ARRAY_BUFFER);
-        OGLBuffer tb = new OGLBuffer(glGenBuffers(), GL_ARRAY_BUFFER);
-        OGLBuffer ib = new OGLBuffer(glGenBuffers(), GL_ELEMENT_ARRAY_BUFFER);
+        OGLBuffer pb = new OGLBuffer(glGenBuffers(), GL_ARRAY_BUFFER, points.length);
+        OGLBuffer tb = new OGLBuffer(glGenBuffers(), GL_ARRAY_BUFFER, tcs.length);
+        OGLBuffer ib = new OGLBuffer(glGenBuffers(), GL_ELEMENT_ARRAY_BUFFER, indices.length);
 
         FloatBuffer npb = BufferUtils.createFloatBuffer(points.length);
         FloatBuffer ntb = BufferUtils.createFloatBuffer(tcs.length);
@@ -156,8 +156,7 @@ public class SimpleAssetManager {
 
         glBindBuffer(pb.getTarget(), pb.getId());
         glBufferData(pb.getTarget(), npb, GL_DYNAMIC_DRAW);
-        
-        
+
         glBindBuffer(tb.getTarget(), tb.getId());
         glBufferData(tb.getTarget(), ntb, GL_DYNAMIC_DRAW);
 
