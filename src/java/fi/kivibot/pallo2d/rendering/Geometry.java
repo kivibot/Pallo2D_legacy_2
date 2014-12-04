@@ -6,7 +6,7 @@ import java.util.List;
  *
  * @author Nicklas Ahlskog
  */
-public class Geometry {
+public class Geometry extends Transformable{
 
     private final List<Texture> textures;
     private final Shader shader;

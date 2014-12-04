@@ -15,6 +15,8 @@ public class Transformable {
         new float[]{0, 0, 1}});
 
     private final Vector2f pos = new Vector2f();
+    private float rot;
+    private final Vector2f scale = new Vector2f(1, 1);
 
     public void setPosition(float x, float y) {
         pos.set(x, y);
@@ -38,6 +40,29 @@ public class Transformable {
 
     public Matrix3f getMatrix() {
         return m;
+    }
+
+    public void setRotation(float f) {
+        rot = f;
+        float cos = (float) Math.cos(f);
+        float sin = (float) Math.sin(f);
+        m.set(0, 0, scale.getX() * cos);
+        m.set(0, 1, scale.getY() * -sin);
+        m.set(1, 0, scale.getX() * sin);
+        m.set(1, 1, scale.getY() * cos);
+    }
+
+    public void rotate(float f) {
+        setRotation(rot + f);
+    }
+
+    public void setScale(float x, float y) {
+        scale.set(x, y);
+        setRotation(rot);
+    }
+
+    public void setScale(Vector2f v) {
+        setScale(v.getX(), v.getY());
     }
 
 }

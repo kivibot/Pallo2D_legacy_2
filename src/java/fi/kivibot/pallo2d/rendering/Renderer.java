@@ -15,25 +15,27 @@ import static org.lwjgl.opengl.GL13.*;
  * @author Nicklas Ahlskog
  */
 public class Renderer {
-
+    
     private final GLContext glContext;
-
+    
     private FloatBuffer fb0 = BufferUtils.createFloatBuffer(9);
-
+    
     public Renderer(GLContext glContext) {
         this.glContext = glContext;
     }
-
-    public void render(Geometry g) {
+    
+    public void render(Camera c, Geometry g) {
         glBindVertexArray(g.getMesh().getId());
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, g.getMesh().getIndices().getId());
         glUseProgram(g.getShader().getId());
-
-        Transformable t = new Transformable();
-        t.translate(0, (float) Math.sin(System.currentTimeMillis()/1000.0));
-        t.getMatrix().toBuffer(fb0);
-        glUniformMatrix3(glGetUniformLocation(g.getShader().getId(), "cam"), true, fb0);
-
+        
+        c.getProjectionMatrix().toBuffer(fb0);
+        glUniformMatrix3(glGetUniformLocation(g.getShader().getId(), "proj"), true, fb0);
+        c.getMatrix().toBuffer(fb0);
+        glUniformMatrix3(glGetUniformLocation(g.getShader().getId(), "cam"), true, fb0);        
+        g.getMatrix().toBuffer(fb0);
+        glUniformMatrix3(glGetUniformLocation(g.getShader().getId(), "obj"), true, fb0);
+        
         for (int i = 0; i < g.getTextures().size(); i++) {
             glActiveTexture(0);
             glBindTexture(GL11.GL_TEXTURE_2D, g.getTextures().get(i).getId());
@@ -41,9 +43,9 @@ public class Renderer {
         for (int i = 0; i < g.getMesh().getBuffers().size(); i++) {
             glEnableVertexAttribArray(i);
         }
-
+        
         glDrawElements(GL_TRIANGLES, g.getMesh().getIndices().getSize(), GL_UNSIGNED_INT, 0);
-
+        
         for (int i = 0; i < g.getMesh().getBuffers().size(); i++) {
             glDisableVertexAttribArray(i);
         }
@@ -55,5 +57,5 @@ public class Renderer {
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
         glBindVertexArray(0);
     }
-
+    
 }

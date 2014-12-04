@@ -1,6 +1,7 @@
 package fi.kivibot;
 
 import fi.kivibot.pallo2d.Application;
+import fi.kivibot.pallo2d.rendering.Camera;
 import fi.kivibot.pallo2d.rendering.Geometry;
 import fi.kivibot.pallo2d.rendering.Mesh;
 import fi.kivibot.pallo2d.rendering.Shader;
@@ -28,11 +29,12 @@ public class Main {
                 ArrayList<Texture> tl = new ArrayList<>();
                 tl.add(getAssetManager().loadTexture("src/resources/img00.png"));
                 g = new Geometry(tl, s, m);
+                g.setScale(720, 720);
             }
 
             @Override
             protected void onLoop() {
-                getRenderer().render(g);
+                getRenderer().render(new Camera(1280, 720), g);
             }
         }.start();
     }
