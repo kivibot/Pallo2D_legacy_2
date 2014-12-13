@@ -4,7 +4,7 @@ import fi.kivibot.pallo2d.math.Vector2f;
 import fi.kivibot.pallo2d.rendering.Mesh;
 import fi.kivibot.pallo2d.rendering.Shader;
 import fi.kivibot.pallo2d.rendering.Texture;
-import fi.kivibot.pallo2d.rendering.OGLBuffer;
+import fi.kivibot.pallo2d.rendering.GLBuffer;
 import fi.kivibot.pallo2d.rendering.TileSet;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -141,9 +141,9 @@ public class SimpleAssetManager {
             indices[i] = (int) indexList.get(i);
         }
 
-        OGLBuffer pb = new OGLBuffer(glGenBuffers(), GL_ARRAY_BUFFER, points.length);
-        OGLBuffer tb = new OGLBuffer(glGenBuffers(), GL_ARRAY_BUFFER, tcs.length);
-        OGLBuffer ib = new OGLBuffer(glGenBuffers(), GL_ELEMENT_ARRAY_BUFFER, indices.length);
+        GLBuffer pb = new GLBuffer(glGenBuffers(), GL_ARRAY_BUFFER, points.length, 2, GLBuffer.Type.FLOAT);
+        GLBuffer tb = new GLBuffer(glGenBuffers(), GL_ARRAY_BUFFER, tcs.length, 2, GLBuffer.Type.FLOAT);
+        GLBuffer ib = new GLBuffer(glGenBuffers(), GL_ELEMENT_ARRAY_BUFFER, indices.length, 1, GLBuffer.Type.INT);
 
         FloatBuffer npb = BufferUtils.createFloatBuffer(points.length);
         FloatBuffer ntb = BufferUtils.createFloatBuffer(tcs.length);
@@ -161,11 +161,11 @@ public class SimpleAssetManager {
 
         glBindBuffer(tb.getTarget(), tb.getId());
         glBufferData(tb.getTarget(), ntb, GL_DYNAMIC_DRAW);
-
+        
         glBindBuffer(ib.getTarget(), ib.getId());
         glBufferData(ib.getTarget(), nib, GL_DYNAMIC_DRAW);
-
-        ArrayList<OGLBuffer> buffers = new ArrayList<>();
+        
+        ArrayList<GLBuffer> buffers = new ArrayList<>();
         buffers.add(pb);
         buffers.add(tb);
 

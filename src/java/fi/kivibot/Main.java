@@ -8,6 +8,7 @@ import fi.kivibot.pallo2d.rendering.Mesh;
 import fi.kivibot.pallo2d.rendering.Shader;
 import fi.kivibot.pallo2d.rendering.Texture;
 import fi.kivibot.pallo2d.rendering.TileSet;
+import fi.kivibot.pallo2d.rendering.buffers.GLIntBuffer;
 import java.util.ArrayList;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.system.glfw.GLFW;

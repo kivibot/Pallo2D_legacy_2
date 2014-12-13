@@ -44,7 +44,7 @@ public class Renderer {
             glEnableVertexAttribArray(i);
         }
         
-        glDrawElements(GL_TRIANGLES, g.getMesh().getIndices().getSize(), GL_UNSIGNED_INT, 0);
+        glDrawElements(GL_TRIANGLES, g.getMesh().getIndices().getLength(), GL_UNSIGNED_INT, 0);
         
         for (int i = 0; i < g.getMesh().getBuffers().size(); i++) {
             glDisableVertexAttribArray(i);

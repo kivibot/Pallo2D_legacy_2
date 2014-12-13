@@ -6,22 +6,27 @@ import java.util.List;
  *
  * @author Nicklas Ahlskog
  */
-public class Mesh extends OGLObject {
+public class Mesh extends GLObject {
 
-    private final List<OGLBuffer> buffers;
-    private final OGLBuffer indices;
+    private final List<GLBuffer> buffers;
+    private final GLBuffer indices;
 
-    public Mesh(int id, List<OGLBuffer> buffers, OGLBuffer indices) {
+    public Mesh(int id, List<GLBuffer> buffers, GLBuffer indices) {
         super(id);
         this.buffers = buffers;
         this.indices = indices;
     }
 
-    public List<OGLBuffer> getBuffers() {
+    public Mesh(List<GLBuffer> buffers, GLBuffer indices) {
+        this.buffers = buffers;
+        this.indices = indices;
+    }
+
+    public List<GLBuffer> getBuffers() {
         return buffers;
     }
 
-    public OGLBuffer getIndices() {
+    public GLBuffer getIndices() {
         return indices;
     }
 
