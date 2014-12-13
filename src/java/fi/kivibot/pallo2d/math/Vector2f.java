@@ -49,12 +49,12 @@ public class Vector2f {
     }
 
     public void sub(float x, float y) {
-        this.x += x;
-        this.y += y;
+        this.x -= x;
+        this.y -= y;
     }
 
     public void sub(Vector2f v) {
-        add(v.x, v.y);
+        sub(v.x, v.y);
     }
 
     public void mul(float f) {
@@ -85,6 +85,11 @@ public class Vector2f {
 
     public Vector2f copy() {
         return new Vector2f(x, y);
+    }
+
+    @Override
+    public String toString() {
+        return "Vector2f{" + "x=" + x + ", y=" + y + '}';
     }
 
 }

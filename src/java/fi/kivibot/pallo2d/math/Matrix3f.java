@@ -4,10 +4,8 @@ import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 
 /**
- * 00 01 02
- * 10 11 12
- * 20 21 22
- * 
+ * 00 01 02 10 11 12 20 21 22
+ *
  * @author Nicklas Ahlskog
  */
 public class Matrix3f {
@@ -48,13 +46,27 @@ public class Matrix3f {
     public float get(int i, int j) {
         return matrix[i][j];
     }
-    
-    public void toBuffer(FloatBuffer fb){
+
+    public void toBuffer(FloatBuffer fb) {
         fb.clear();
         fb.put(matrix[0]);
         fb.put(matrix[1]);
         fb.put(matrix[2]);
         fb.flip();
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Matrix3f{\n");
+        for (float[] fa : matrix) {
+            sb.append("\t");
+            for (float f : fa) {
+                sb.append(f + ", ");
+            }
+            sb.append("\n");
+        }
+        sb.append("}");
+        return sb.toString();
     }
 
 }

@@ -1,9 +1,11 @@
 package fi.kivibot.pallo2d.assets;
 
+import fi.kivibot.pallo2d.math.Vector2f;
 import fi.kivibot.pallo2d.rendering.Mesh;
 import fi.kivibot.pallo2d.rendering.Shader;
 import fi.kivibot.pallo2d.rendering.Texture;
 import fi.kivibot.pallo2d.rendering.OGLBuffer;
+import fi.kivibot.pallo2d.rendering.TileSet;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -179,6 +181,19 @@ public class SimpleAssetManager {
         glBindVertexArray(0);
 
         return new Mesh(vao, buffers, ib);
+    }
+
+    public TileSet loadTileSet(String path) {
+        Map data = (Map) loadYaml(path);
+        StringBuilder sb = new StringBuilder();
+        String[] pts = path.split("/");
+        for (int i = 0; i < pts.length - 1; i++) {
+            sb.append(pts[i]).append("/");
+        }
+        sb.append((String) data.get("texture"));
+        Texture t = loadTexture(sb.toString());
+        List l = (List) data.get("size");
+        return new TileSet(t, new Vector2f((int) l.get(0), (int) l.get(1)));
     }
 
     private Object loadYaml(String path) {
